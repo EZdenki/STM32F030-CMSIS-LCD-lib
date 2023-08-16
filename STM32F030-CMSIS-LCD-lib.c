@@ -20,24 +20,25 @@
 //  By doing so, a high signal would only require 70% of 4.3 V, or 3.0 V, making 3.3 signalling
 //  sufficient.
 //
-//     STM32F030   8x2 LCD  INLINE  5V/GND
-//     =========  ========  ======  ======
-//        GND ----- VSS ------------- GND
-//                  VDD - [-Diode+] - 5V
-//                                /-- 5V
-//                   VO -[10k Pot]**     (LCD contrast control)
-//                                \-- GND
-//         A5 ------ RS --- [10K] --- GND
-//                   RW ------------- GND
-//         A4 ------ EN --- [10K] --- GND
-//                   D0 ------------- GND
-//                   D1 ------------- GND
-//                   D2 ------------- GND
-//                   D3 ------------- GND
-//         A0 ------ D4 --- [10K] --- GND
-//         A1 ------ D5 --- [10K] --- GND
-//         A2 ------ D6 --- [10K] --- GND
-//         A3 ------ D7 --- [10K] --- GND
+//          STM32F030      8x2 LCD  INLINE  5V/GND
+//         ============    =======  ======  ======
+//         GND (pin 15) ---- VSS ------------- GND
+//         VDD (pin 16) --------------------- 3.3V
+//                           VDD - [-Diode+] - 5V
+//                                         /-- 5V
+//                            VO -[10k Pot]**     (LCD contrast control)
+//                                         \-- GND
+//          A5 (pin 11) ----- RS --- [10K] --- GND
+//                            RW ------------- GND
+//          A4 (pin 10) ----- EN --- [10K] --- GND
+//                            D0 ------------- GND
+//                            D1 ------------- GND
+//                            D2 ------------- GND
+//                            D3 ------------- GND
+//           A0 (pin 6) ----- D4 --- [10K] --- GND
+//           A1 (pin 7) ----- D5 --- [10K] --- GND
+//           A2 (pin 8) ----- D6 --- [10K] --- GND
+//           A3 (pin 9) ----- D7 --- [10K] --- GND
 //
 
 #ifndef __STM32F030_CMSIS_LCD_LIB_C
