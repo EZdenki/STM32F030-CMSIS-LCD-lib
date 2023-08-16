@@ -1,4 +1,4 @@
-# STM32F030-CMSIS-LCD-lib.c
+# STM32F030-CMSIS-LCD-lib
 Library to interface the STM32F030F4xx to a 16x2 (or other) LCD module. Requires six IO pins. Note that the pins used on the microcontroller are not 5V tolerant and must be tied to GND with a 10 KΩ resistor on each of RS (A5), EN (A4), D4 (A3), D5 (A2), D6 (A1), and D7 (A0). Includes a sample main.c program that initializes the LCD and displays some text.<br>
 <br>
 See STM32F030-CMSIS-LCD-lib.c for connection details.
