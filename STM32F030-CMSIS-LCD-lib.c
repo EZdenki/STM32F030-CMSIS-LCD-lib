@@ -1,8 +1,13 @@
 //  STM32F030-CMSIS-LCD-lib.c
-//  Target Microcontroller: STM32F030F4xx
-//  Mike Shegedin, 07/2023 (Started)
+//    Simple functionality to control a 8x2 LCD via the STM32F030 microcontroller.
 //
-//  Simple functionality to control a 8x2 LCD via the STM32F030 microcontroller.
+//    Mike Shegedin, EZdenki.com
+//
+//    Version 1.0   16 Aug 2023   Updated comments
+//    Version 0.9      Jul 2023   Started
+//
+//    Target Microcontroller: STM32F030F4xx
+//
 //
 //  HARDWARE SETUP
 //  ==============
@@ -18,7 +23,7 @@
 //     STM32F030   8x2 LCD  INLINE  5V/GND
 //     =========  ========  ======  ======
 //        GND ----- VSS ------------- GND
-//                  VDD ------------- 5V
+//                  VDD - [-Diode+] - 5V
 //                                /-- 5V
 //                   VO -[10k Pot]**     (LCD contrast control)
 //                                \-- GND
@@ -34,19 +39,23 @@
 //         A2 ------ D6 --- [10K] --- GND
 //         A3 ------ D7 --- [10K] --- GND
 //
+
 #ifndef __STM32F030_CMSIS_LCD_LIB_C
 #define __STM32F030_CMSIS_LCD_LIB_C
 
-#include "stm32f030x6.h"  // Primary CMSIS header file
+#include "stm32f030x6.h"          // Primary CMSIS header file
+#include "STM32F030-Delay-lib.c"  // Has the microsecond delay function
 
-#define LCD_RS_BIT (1<<5)
-#define LCD_EN_BIT (1<<4)
 
-#define LCD_RS_ON()  GPIOA->ODR |=  LCD_RS_BIT
-#define LCD_EN_ON()  GPIOA->ODR |=  LCD_EN_BIT
-#define LCD_RS_OFF() GPIOA->ODR &= ~LCD_RS_BIT
-#define LCD_EN_OFF() GPIOA->ODR &= ~LCD_EN_BIT
+#define LCD_RS_BIT (1<<5)         // Define GPIO pin for RS
+#define LCD_EN_BIT (1<<4)         // Define GPIO pin for EN
 
+#define LCD_RS_ON()  GPIOA->ODR |=  LCD_RS_BIT  // Turn ON RS pin
+#define LCD_EN_ON()  GPIOA->ODR |=  LCD_EN_BIT  // Turn ON EN pin
+#define LCD_RS_OFF() GPIOA->ODR &= ~LCD_RS_BIT  // Turn OFF RS pin
+#define LCD_EN_OFF() GPIOA->ODR &= ~LCD_EN_BIT  // Turn OFF EN pin
+
+//  Defines for LCD commands
 #define LCD_CLEAR                0x01
 #define LCD_HOME                 0x02
 #define LCD_OFF                  0x08
@@ -80,24 +89,6 @@ LCD_writeUpperNibble( uint8_t data )
   // Mask off the upper nibble of data, and shift those bits down 4 bits and write them to
   // the newly cleared nibble at A[3:0]
   GPIOA->ODR |= (data & 0xF0) >> 4;
-}
-
-
-//  Pause
-//  Actually halts the program here by entering an endless loop
-//  For debugging.
-void
-pause( void )
-{
-  while(1);
-}
-
-
-void
-delay_us( uint32_t d )
-{
-  d = d *5 / 7 ;
-  for( uint32_t x=0; x < d; x++ ) ;
 }
 
 
