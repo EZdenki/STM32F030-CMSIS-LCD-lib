@@ -1,26 +1,28 @@
+//  ==========================================================================================
 //  STM32F030-CMSIS-LCD-lib.c
-//    Simple functionality to control a 8x2 LCD via the STM32F030 microcontroller.
-//
-//    Mike Shegedin, EZdenki.com
-//
+//  ------------------------------------------------------------------------------------------
+//  Simple functionality to control a 8x2 LCD via the STM32F030 microcontroller.
+//  ------------------------------------------------------------------------------------------
+//  https://github.com/EZdenki/STM32F030-CMSIS-LCD-lib
+//  Released under the MIT License
+//  Copyright (c) 2023
+//  Mike Shegedin, EZdenki.com
 //    Version 1.0   16 Aug 2023   Updated comments
 //    Version 0.9      Jul 2023   Started
+//  ------------------------------------------------------------------------------------------
+//  Target Devices: STM32F030F4xx, 16x2 (or 8x2, etc.) LCD display
+//  ------------------------------------------------------------------------------------------
+//  HARDWARE SETUP:
+//    The LCD module requires 4 to 5 Vdc to operate and therefore uses 5V signals. However,
+//    the STM32F030 IO pins are not 5V tolerant. To mitigate this, all of the signal lines
+//    between the LCD display and the microcontroller will be pulled down using a 10k
+//    resistor. The LCD does respond to 3.3 V signals, however, this is a little lower than
+//    the 70% of VCC required for a positive pulse according to the datasheet. This can be
+//    further mitigated by powering the LCD module with 4.3 V by connecting the VCC pin on the
+//    LCD through a diode. By doing so, a high signal would only require 70% of 4.3 V, or
+//    3.0 V, making 3.3 signalling sufficient.
 //
-//    Target Microcontroller: STM32F030F4xx
-//
-//
-//  HARDWARE SETUP
-//  ==============
-//  The 8x2 LCD module requires 4 to 5 Vdc to operate and therefore uses 5V signals. However,
-//  the STM32F030 IO pins are not 5V tolerant. To mitigate this, all of the signal lines
-//  between the LCD display and the microcontroller will be pulled down using a 10k resistor.
-//  The LCD does respond to 3.3 V signals, however, this is a little lower than the 70% of VCC
-//  required for a positive pulse according to the datasheet. This can be further mitigated by
-//  powering the LCD module with 4.3 V by connecting the VCC pin on the LCD through a diode.
-//  By doing so, a high signal would only require 70% of 4.3 V, or 3.0 V, making 3.3 signalling
-//  sufficient.
-//
-//          STM32F030      8x2 LCD  INLINE  5V/GND
+//          STM32F030        LCD    INLINE  5V/GND
 //         ============    =======  ======  ======
 //         GND (pin 15) ---- VSS ------------- GND
 //         VDD (pin 16) --------------------- 3.3V
@@ -40,13 +42,13 @@
 //           A2 (pin 8) ----- D6 --- [10K] --- GND
 //           A3 (pin 9) ----- D7 --- [10K] --- GND
 //
+//  ==========================================================================================
 
 #ifndef __STM32F030_CMSIS_LCD_LIB_C
 #define __STM32F030_CMSIS_LCD_LIB_C
 
 #include "stm32f030x6.h"          // Primary CMSIS header file
 #include "STM32F030-Delay-lib.c"  // Has the microsecond delay function
-
 
 #define LCD_RS_BIT (1<<5)         // Define GPIO pin for RS
 #define LCD_EN_BIT (1<<4)         // Define GPIO pin for EN
